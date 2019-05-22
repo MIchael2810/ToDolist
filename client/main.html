@@ -1,0 +1,86 @@
+<head>
+  <title>simple</title>
+</head>
+
+
+
+
+<body>
+  <div class="container" style="padding:0px;">
+    {{>addtaskModal}}
+    {{>task}}
+  </div>
+</body>
+ 
+<template name="task">
+  <header>
+    <h1>Todo List</h1>
+    <a class="text-right"  style="float: right;">{{>loginButtons}}</a>
+    {{#if currentUser}}
+      <button type="button" data-toggle="modal" data-target="#addTask" class="text-muted btn btn-link"><i class="zmdi zmdi-plus"></i> Add another task</button>  
+    {{/if}}
+  </header>
+  <div class="main-body">
+    {{#each AllTasks}}
+      <div id={{_id}}>
+        {{#if isPublic}}
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input js-checked" checked={{Checked}} id="Checkbox{{_id}}">
+            <label class="form-check-label" for="Checkbox{{_id}}">{{Name}}</label>
+            {{#if currentUser}}
+              <a class="text-muted text-right" role="button" href="#" style="float: right;"><i class="zmdi zmdi-close js-delete"></i></a>
+            {{/if}}
+          </div>
+        {{/if}}
+        {{#if isPrivate}}
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input js-checked" id="Checkbox{{_id}}">
+            <label class="form-check-label" for="Checkbox{{_id}}"><b>(Private)</b> {{Name}}</label>
+            {{#if currentUser}}
+              <a class="text-muted text-right" role="button" href="#" style="float: right;"><i class="zmdi zmdi-close js-delete"></i></a>
+            {{/if}}
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="addtaskModal">
+  <div class="modal fade bd-example-modal-lg" id="addTask" tabindex="-1" role="dialog" aria-labelledby="addTask" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addTask">Add a new task</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="TaskName" class="col-sm-2 col-form-label">Task Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="TaskName" placeholder="Task Name">
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <label for="TaskStatus" class="col-sm-2 col-form-label">Task Status</label>
+              <div class="col-sm-10">
+                <select class="custom-select mr-sm-2" id="TaskStatus">
+                  <option value="Public" selected>Public</option>
+                  <option value="Private">Private</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary js-save">Save Task</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
